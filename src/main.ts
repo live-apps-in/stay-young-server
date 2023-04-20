@@ -6,6 +6,7 @@ import * as express from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api');
   app.use(cors());
   app.use(express.json());
   app.use(helmet());
