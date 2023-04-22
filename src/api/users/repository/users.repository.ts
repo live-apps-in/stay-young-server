@@ -9,10 +9,10 @@ export class UserRepository {
     @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
   async getAllUsers() {
-    return await this.userModel.find();
+    return this.userModel.find();
   }
 
   async findUserByEmail(email: string) {
-    return await this.userModel.findOne({ email });
+    return this.userModel.findOne({ email });
   }
 }

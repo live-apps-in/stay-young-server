@@ -7,11 +7,11 @@ import { Model, Types } from 'mongoose';
 export class AuthRepository {
   constructor(@InjectModel(Auth.name) private authModel: Model<Auth>) {}
   async findOneByUserId(userId: Types.ObjectId) {
-    return await this.authModel.findOne({ userId: userId.toString() });
+    return this.authModel.findOne({ userId: userId.toString() });
   }
   async updateOne(userId: Types.ObjectId, payload: any) {
     const userId_string = userId.toString();
-    return await this.authModel.findOneAndUpdate(
+    return this.authModel.findOneAndUpdate(
       {
         userId: userId_string,
       },

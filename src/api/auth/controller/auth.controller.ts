@@ -16,12 +16,12 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post('login')
   async login(@Body() loginUserDto: LoginUserDto) {
-    return await this.authService.login(loginUserDto);
+    return this.authService.login(loginUserDto);
   }
 
   @UseGuards(AuthGuard)
   @Get('logout')
   async logout(@Request() req: Req) {
-    return await this.authService.logout(req.userData);
+    return this.authService.logout(req.userData);
   }
 }
