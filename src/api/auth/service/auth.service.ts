@@ -3,9 +3,10 @@ import {
   Inject,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { AuthRepository } from '../repository/auth.repository';
-import { LoginUserDto } from '../_dto/auth.dto';
+import { LoginUserDto, ResetPasswordDto } from '../_dto/auth.dto';
 import * as bcrypt from 'bcrypt';
 import { UserRepository } from 'src/api/users/repository/users.repository';
 import { v4 as uuid_v4 } from 'uuid';
@@ -22,7 +23,7 @@ export class AuthService {
     const user = await this.userRepo.findUserByEmail(loginUserDto.email);
 
     if (!user) {
-      throw new BadRequestException('Invalid Credentials');
+      throw new UnauthorizedException('Invalid Credentials');
     }
 
     const user_auth = await this.authRepo.findOneByUserId(user._id);
@@ -32,7 +33,7 @@ export class AuthService {
       user_auth.password,
     );
     if (!isPasswordMatches) {
-      throw new BadRequestException('Invalid Credentials');
+      throw new UnauthorizedException('Invalid Credentials');
     }
 
     // Generate uuid
@@ -55,10 +56,35 @@ export class AuthService {
       $pull: { sessions: userData.sessionId },
     });
     if (!updated_user_auth) {
-      throw new NotFoundException(
-        `User with id ${userData.userId} is not found`,
-      );
+      throw new NotFoundException(`User not found`);
     }
     return { message: 'Logged out Successfully' };
+  }
+
+  async reset_password(resetPasswordDto: ResetPasswordDto, userData: any) {
+    const user = await this.authRepo.findOneByUserId(userData.userId);
+    if (!user) {
+      throw new NotFoundException(`User not found`);
+    }
+    const isPasswordMatches = bcrypt.compareSync(
+      resetPasswordDto.currentPassword,
+      user.password,
+    );
+    // Checks current password and user entered password matches
+    if (!isPasswordMatches) {
+      throw new UnauthorizedException('Incorrect Password');
+    }
+
+    // Checks new password and confirm password matches
+    if (resetPasswordDto.newPassword !== resetPasswordDto.confirmPassword) {
+      throw new BadRequestException("Password doesn't match");
+    }
+
+    const hashed_new_password = bcrypt.hashSync(
+      resetPasswordDto.newPassword,
+      13,
+    );
+    user.password = hashed_new_password;
+    return user.save();
   }
 }

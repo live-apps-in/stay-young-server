@@ -10,10 +10,9 @@ export class AuthRepository {
     return this.authModel.findOne({ userId: userId.toString() });
   }
   async updateOne(userId: Types.ObjectId, payload: any) {
-    const userId_string = userId.toString();
     return this.authModel.findOneAndUpdate(
       {
-        userId: userId_string,
+        userId: userId.toString(),
       },
       {
         ...payload,

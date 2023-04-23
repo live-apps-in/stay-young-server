@@ -7,7 +7,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { AuthService } from '../service/auth.service';
-import { LoginUserDto } from '../_dto/auth.dto';
+import { LoginUserDto, ResetPasswordDto } from '../_dto/auth.dto';
 import { AuthGuard } from '../guards/auth.guard';
 import { Req } from 'src/core/custom_types';
 
@@ -23,5 +23,14 @@ export class AuthController {
   @Get('logout')
   async logout(@Request() req: Req) {
     return this.authService.logout(req.userData);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('reset-password')
+  async resetPassword(
+    @Body() resetPasswordDto: ResetPasswordDto,
+    @Request() req: Req,
+  ) {
+    return this.authService.reset_password(resetPasswordDto, req.userData);
   }
 }
