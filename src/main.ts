@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common/pipes/validation.pipe';
 import helmet from 'helmet';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,9 +12,16 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+  const config = new DocumentBuilder()
+    .setTitle('Stay Young')
+    .setDescription('korean skin care website for selling products')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, document);
   app.enableCors();
   app.use(helmet());
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 
 bootstrap();
