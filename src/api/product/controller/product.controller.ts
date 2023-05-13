@@ -35,7 +35,7 @@ export class ProductController {
     return this.productService.updateProduct(productDto, id);
   }
 
-  @Get('/list-by-category/:name')
+  @Get('/category/:name')
   getByCategory(@Param('name') name: string) {
     return this.productService.getProductsByCategoryName(name);
   }

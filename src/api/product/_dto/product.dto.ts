@@ -21,14 +21,12 @@ export class ProductDto {
 
   @ApiProperty({ example: ['toner'] })
   @IsArray()
-  // "each" tells class-validator to run the validation on each item of the array
   @IsString({ each: true })
   @ArrayMinSize(1)
   readonly category: Category[];
 
   @ApiProperty({ example: ['image1Url', 'Image2Url', 'Image3Url'] })
   @IsArray()
-  // "each" tells class-validator to run the validation on each item of the array
   @IsString({ each: true })
   @ArrayMinSize(1)
   readonly images: string[];
@@ -44,7 +42,7 @@ export class ProductDto {
 
   @ApiProperty({ example: 20 })
   @IsNumber()
-  readonly countInStock: number;
+  readonly stockAvailable: number;
 
   @ApiProperty({
     example: 'This toner is designed to brighten and even out skin tone.',

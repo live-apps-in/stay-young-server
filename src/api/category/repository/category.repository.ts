@@ -11,27 +11,27 @@ export class CategoryRepository {
     private readonly categoryModel: Model<Category>,
   ) {}
 
-  async findCategory(query: unknown) {
+  async find(query: unknown) {
     return this.categoryModel.find(query);
   }
 
-  async createCategory(categoryDto: CategoryDto) {
+  async create(categoryDto: CategoryDto) {
     return this.categoryModel.create(categoryDto);
   }
 
-  async getAllCategory() {
+  async getAll() {
     return this.categoryModel.find();
   }
 
-  async getCategoryById(id: string) {
+  async getById(id: string) {
     return this.categoryModel.findById(id);
   }
 
-  async getCategoryByName(name: string) {
+  async getByName(name: string) {
     return this.categoryModel.findOne({ name });
   }
 
-  async updateCategory(id: string, categoryDto: CategoryDto) {
+  async update(id: string, categoryDto: CategoryDto) {
     return this.categoryModel.findOneAndUpdate(
       {
         _id: id,
@@ -41,7 +41,7 @@ export class CategoryRepository {
     );
   }
 
-  async deleteCategoryById(id: string) {
+  async deleteById(id: string) {
     return this.categoryModel.findByIdAndDelete(id);
   }
 }

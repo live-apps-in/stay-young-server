@@ -12,42 +12,40 @@ export class CategoryService {
 
   async createCategory(categoryDto: CategoryDto) {
     const { name } = categoryDto;
-    const category = await this.categoryRepository.getCategoryByName(name);
+    const category = await this.categoryRepository.getByName(name);
     if (category) {
       throw new BadRequestException(`Category ${name} already exists`);
     }
-    return this.categoryRepository.createCategory({
+    return this.categoryRepository.create({
       ...categoryDto,
       name: name.toLowerCase(),
     });
   }
 
   async getAllCategory() {
-    return this.categoryRepository.getAllCategory();
+    return this.categoryRepository.getAll();
   }
 
   async updateCategory(categoryId: string, categoryDto: CategoryDto) {
     const { name } = categoryDto;
-    const category = await this.categoryRepository.getCategoryById(categoryId);
+    const category = await this.categoryRepository.getById(categoryId);
     if (!category) {
       throw new NotFoundException('Category not found');
     }
-    const isCategoryExists = await this.categoryRepository.getCategoryByName(
-      name,
-    );
+    const isCategoryExists = await this.categoryRepository.getByName(name);
     if (isCategoryExists) {
       throw new BadRequestException(`Category ${name} already exists`);
     }
-    return this.categoryRepository.updateCategory(categoryId, categoryDto);
+    return this.categoryRepository.update(categoryId, categoryDto);
   }
 
   async deleteCategory(categoryId: string) {
-    const category = await this.categoryRepository.getCategoryById(categoryId);
+    const category = await this.categoryRepository.getById(categoryId);
     if (!category) {
       throw new NotFoundException('Category not found');
     }
 
-    await this.categoryRepository.deleteCategoryById(categoryId);
+    await this.categoryRepository.deleteById(categoryId);
     return { message: 'Category Deleted Successfully' };
   }
 }

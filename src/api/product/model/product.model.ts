@@ -24,7 +24,7 @@ export class Product {
   @Prop()
   discountedPrice: number;
   @Prop({ default: 0 })
-  countInStock: number;
+  stockAvailable: number;
   @Prop()
   description: string;
 }

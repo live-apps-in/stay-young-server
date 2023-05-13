@@ -21,7 +21,7 @@ export class AuthService {
   ) {}
   async login(loginUserDto: LoginUserDto): Promise<{ access_token: string }> {
     const { email, password } = loginUserDto;
-    const user = await this.userRepo.findUserByEmail(email);
+    const user = await this.userRepo.findByEmail(email);
 
     if (!user) {
       throw new UnauthorizedException('Invalid Credentials');

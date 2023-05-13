@@ -15,7 +15,7 @@ export class ProductRepository {
     private readonly productModel: Model<Product>,
   ) {}
 
-  async createProduct(payload: IProduct) {
+  async create(payload: IProduct) {
     return this.productModel.create(payload);
   }
 

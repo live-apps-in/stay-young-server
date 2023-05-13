@@ -24,7 +24,7 @@ export class ProductService {
       );
     }
     // Checking whether the categoryId coming from client exists in database
-    const categories = await this.categoryRepository.findCategory({
+    const categories = await this.categoryRepository.find({
       _id: { $in: category },
     });
     if (categories.length !== category.length) {
@@ -49,7 +49,7 @@ export class ProductService {
     }
 
     // Creating Product with attaching slug property
-    const createdProduct = await this.productRepository.createProduct({
+    const createdProduct = await this.productRepository.create({
       ...productDto,
       slug,
     });
@@ -77,7 +77,7 @@ export class ProductService {
       );
     }
     // Checking whether the categoryId coming from client exists in database
-    const categories = await this.categoryRepository.findCategory({
+    const categories = await this.categoryRepository.find({
       _id: { $in: category },
     });
     if (categories.length !== category.length) {
