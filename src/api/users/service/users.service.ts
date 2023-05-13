@@ -5,6 +5,10 @@ import { UserRepository } from '../repository/users.repository';
 export class UserService {
   constructor(private readonly userRepo: UserRepository) {}
   async getAllUsers() {
-    return this.userRepo.getAllUsers();
+    return this.userRepo.getAll();
+  }
+
+  async getLoggedInUser(userId: string) {
+    return this.userRepo.findById(userId);
   }
 }

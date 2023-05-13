@@ -8,11 +8,15 @@ export class UserRepository {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
-  async getAllUsers() {
+  async getAll() {
     return this.userModel.find();
   }
 
-  async findUserByEmail(email: string) {
+  async findByEmail(email: string) {
     return this.userModel.findOne({ email });
+  }
+
+  async findById(userId: string) {
+    return this.userModel.findById(userId);
   }
 }
