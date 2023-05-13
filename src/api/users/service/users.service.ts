@@ -7,4 +7,8 @@ export class UserService {
   async getAllUsers() {
     return this.userRepo.getAllUsers();
   }
+
+  async getLoggedInUser(userId: string) {
+    return this.userRepo.findUserById(userId);
+  }
 }
