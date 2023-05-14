@@ -6,4 +6,8 @@ export class CategoryDto {
   @IsNotEmpty()
   @IsString()
   readonly name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly image: string;
 }

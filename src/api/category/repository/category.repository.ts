@@ -36,7 +36,7 @@ export class CategoryRepository {
       {
         _id: id,
       },
-      { name: categoryDto.name },
+      { name: categoryDto.name, image: categoryDto.image },
       { new: true },
     );
   }

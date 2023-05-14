@@ -9,6 +9,7 @@ export class UserService {
   }
 
   async getLoggedInUser(userId: string) {
-    return this.userRepo.findById(userId);
+    const userDetails = await this.userRepo.findById(userId);
+    return { user: userDetails };
   }
 }
