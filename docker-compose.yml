@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  stay-young-server:
+    build: .
+    image: stay-young-server
+    container_name: stay-young-server
+    ports:
+      - "5008:5000"
+    restart: always
