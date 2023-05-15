@@ -28,6 +28,10 @@ export class CategoryService {
     return this.categoryRepository.getAll();
   }
 
+  async getSingleCategory(id: string) {
+    return this.categoryRepository.getById(id);
+  }
+
   async updateCategory(categoryId: string, categoryDto: CategoryDto) {
     const { name } = categoryDto;
     const category = await this.categoryRepository.getById(categoryId);

@@ -29,6 +29,11 @@ export class CategoryController {
     return this.categoryService.getAllCategory();
   }
 
+  @Get(':id')
+  getSingleCategory(@Param('id') id: string) {
+    return this.categoryService.getSingleCategory(id);
+  }
+
   @Patch(':id')
   @UseGuards(AuthGuard)
   update(@Param('id') id: string, @Body() categoryDto: CategoryDto) {

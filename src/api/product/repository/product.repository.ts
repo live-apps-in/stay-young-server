@@ -28,7 +28,7 @@ export class ProductRepository {
   }
 
   async findById(id: string) {
-    return this.productModel.findById(id);
+    return await this.productModel.findById(id);
   }
 
   async getAll() {

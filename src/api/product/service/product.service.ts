@@ -62,6 +62,10 @@ export class ProductService {
     return this.productRepository.getByCategory(categoryName);
   }
 
+  async getSingleProduct(id: string) {
+    return this.productRepository.findById(id);
+  }
+
   async updateProduct(productDto: ProductDto, productId: string) {
     const product = await this.productRepository.findById(productId);
     if (!product) {
@@ -69,13 +73,16 @@ export class ProductService {
     }
     const { name, subName, category } = productDto;
 
-    // Checking if product name already exists
-    const nameExists = await this.productRepository.findOne({ name });
-    if (nameExists) {
-      throw new BadRequestException(
-        `Product with name ${name} already exists. Please give a different name`,
-      );
+    if (product.name !== name) {
+      // Checking if product name already exists
+      const nameExists = await this.productRepository.findOne({ name });
+      if (nameExists) {
+        throw new BadRequestException(
+          `Product with name ${name} already exists. Please give a different name`,
+        );
+      }
     }
+
     // Checking whether the categoryId coming from client exists in database
     const categories = await this.categoryRepository.find({
       _id: { $in: category },
