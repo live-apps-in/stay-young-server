@@ -30,8 +30,8 @@ export class ProductController {
   }
 
   @Get(':id')
-  getSingleProduct(@Param('id') id: string) {
-    return this.productService.getSingleProduct(id);
+  getById(@Param('id') id: string) {
+    return this.productService.getById(id);
   }
 
   @Patch(':id')

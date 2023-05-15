@@ -62,7 +62,7 @@ export class ProductService {
     return this.productRepository.getByCategory(categoryName);
   }
 
-  async getSingleProduct(id: string) {
+  async getById(id: string) {
     return this.productRepository.findById(id);
   }
 
