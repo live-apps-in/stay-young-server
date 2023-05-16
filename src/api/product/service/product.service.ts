@@ -57,12 +57,22 @@ export class ProductService {
     return populatedProduct;
   }
 
+  async getProductBySlug(slug: string) {
+    return this.productRepository.findOne({
+      slug,
+    });
+  }
+
   async getProductsByCategoryName(categoryName: string) {
     return this.productRepository.getByCategory(categoryName);
   }
 
   async getById(id: string) {
     return this.productRepository.findById(id);
+  }
+
+  async getAllProducts() {
+    return this.productRepository.getAll();
   }
 
   async updateProduct(productDto: ProductDto, productId: string) {
@@ -124,10 +134,6 @@ export class ProductService {
 
       return updatedProduct.populate('category');
     }
-  }
-
-  async getAllProducts() {
-    return this.productRepository.getAll();
   }
 
   async deleteProduct(productId: string) {
