@@ -20,7 +20,7 @@ export class ProductRepository {
   }
 
   async findOne(query: any) {
-    return this.productModel.findOne(query);
+    return this.productModel.findOne(query).populate('category');
   }
 
   async find(query: any) {
@@ -62,7 +62,7 @@ export class ProductRepository {
       },
       {
         $match: {
-          'category.name': categoryName,
+          'category.name': { $regex: new RegExp(categoryName, 'i') },
         },
       },
     ]);

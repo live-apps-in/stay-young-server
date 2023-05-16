@@ -34,13 +34,18 @@ export class ProductController {
     return this.productService.getById(id);
   }
 
+  @Get('slug/:slug')
+  getBySlug(@Param('slug') slug: string) {
+    return this.productService.getProductBySlug(slug);
+  }
+
   @Patch(':id')
   @UseGuards(AuthGuard)
   update(@Param('id') id: string, @Body() productDto: ProductDto) {
     return this.productService.updateProduct(productDto, id);
   }
 
-  @Get('/category/:name')
+  @Get('category/:name')
   getByCategory(@Param('name') name: string) {
     return this.productService.getProductsByCategoryName(name);
   }
