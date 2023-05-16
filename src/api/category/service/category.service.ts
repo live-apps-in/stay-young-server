@@ -11,17 +11,12 @@ export class CategoryService {
   constructor(private readonly categoryRepository: CategoryRepository) {}
 
   async createCategory(categoryDto: CategoryDto) {
-    const { name } = categoryDto;
-    const category = await this.categoryRepository.getByName(
-      name.toLowerCase(),
-    );
-    if (category) {
-      throw new BadRequestException(`Category ${name} already exists`);
+    if (await this.categoryRepository.isNameAlreadyExists(categoryDto.name)) {
+      throw new BadRequestException(
+        `Category ${categoryDto.name} already exists`,
+      );
     }
-    return this.categoryRepository.create({
-      ...categoryDto,
-      name: name.toLowerCase(),
-    });
+    return this.categoryRepository.create(categoryDto);
   }
 
   async getAllCategory() {
@@ -33,14 +28,17 @@ export class CategoryService {
   }
 
   async updateCategory(categoryId: string, categoryDto: CategoryDto) {
-    const { name } = categoryDto;
     const category = await this.categoryRepository.getById(categoryId);
     if (!category) {
       throw new NotFoundException('Category not found');
     }
-    const isCategoryExists = await this.categoryRepository.getByName(name);
-    if (isCategoryExists) {
-      throw new BadRequestException(`Category ${name} already exists`);
+    // Check whether category exists only if the incoming category name is new
+    if (category.name !== categoryDto.name) {
+      if (await this.categoryRepository.isNameAlreadyExists(categoryDto.name)) {
+        throw new BadRequestException(
+          `Category ${categoryDto.name} already exists`,
+        );
+      }
     }
     return this.categoryRepository.update(categoryId, categoryDto);
   }

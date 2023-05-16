@@ -27,6 +27,12 @@ export class ProductRepository {
     return this.productModel.find(query);
   }
 
+  async isNameAlreadyExists(name: string) {
+    return this.productModel.findOne({
+      name: { $regex: new RegExp(name, 'i') },
+    });
+  }
+
   async findById(id: string) {
     return this.productModel.findById(id);
   }

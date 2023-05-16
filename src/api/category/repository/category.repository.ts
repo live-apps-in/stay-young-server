@@ -27,8 +27,10 @@ export class CategoryRepository {
     return this.categoryModel.findById(id);
   }
 
-  async getByName(name: string) {
-    return this.categoryModel.findOne({ name });
+  async isNameAlreadyExists(name: string) {
+    return this.categoryModel.findOne({
+      name: { $regex: new RegExp(name, 'i') },
+    });
   }
 
   async update(id: string, categoryDto: CategoryDto) {

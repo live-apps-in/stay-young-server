@@ -17,8 +17,7 @@ export class ProductService {
   async createProduct(productDto: ProductDto) {
     const { name, subName, category } = productDto;
     // Checking if product name already exists
-    const nameExists = await this.productRepository.findOne({ name });
-    if (nameExists) {
+    if (await this.productRepository.isNameAlreadyExists(name)) {
       throw new BadRequestException(
         `Product with name ${name} already exists. Please give a different name`,
       );
@@ -73,10 +72,9 @@ export class ProductService {
     }
     const { name, subName, category } = productDto;
 
+    // Checking if product name already exists only if incoming name is new
     if (product.name !== name) {
-      // Checking if product name already exists
-      const nameExists = await this.productRepository.findOne({ name });
-      if (nameExists) {
+      if (await this.productRepository.isNameAlreadyExists(name)) {
         throw new BadRequestException(
           `Product with name ${name} already exists. Please give a different name`,
         );
@@ -96,7 +94,7 @@ export class ProductService {
       let slug = subName.replace(/\s+/g, '-').toLowerCase();
       // Check if slug already exists
       let slugExists = await this.productRepository.findOne({ slug });
-      // Append "-1" or increment number if necessary
+
       let count = 1;
       while (slugExists) {
         const countMatch = slug.match(/-(\d+)$/);
@@ -108,7 +106,6 @@ export class ProductService {
         }
         slugExists = await this.productRepository.findOne({ slug });
       }
-
       const updatedProduct = await this.productRepository.findOneAndUpdate(
         productId,
         {
@@ -116,8 +113,7 @@ export class ProductService {
           slug,
         },
       );
-      const populatedProduct = await updatedProduct.populate('category');
-      return populatedProduct;
+      return updatedProduct.populate('category');
     } else {
       const updatedProduct = await this.productRepository.findOneAndUpdate(
         productId,
@@ -126,8 +122,7 @@ export class ProductService {
         },
       );
 
-      const populatedProduct = await updatedProduct.populate('category');
-      return populatedProduct;
+      return updatedProduct.populate('category');
     }
   }
 
