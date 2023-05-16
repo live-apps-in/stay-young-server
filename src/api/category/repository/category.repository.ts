@@ -27,7 +27,7 @@ export class CategoryRepository {
     return this.categoryModel.findById(id);
   }
 
-  async isNameAlreadyExists(name: string) {
+  async getByName(name: string) {
     return this.categoryModel.findOne({
       name: { $regex: new RegExp(name, 'i') },
     });

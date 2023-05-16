@@ -27,7 +27,7 @@ export class ProductRepository {
     return this.productModel.find(query);
   }
 
-  async isNameAlreadyExists(name: string) {
+  async getByName(name: string) {
     return this.productModel.findOne({
       name: { $regex: new RegExp(name, 'i') },
     });

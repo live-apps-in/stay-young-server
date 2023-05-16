@@ -17,7 +17,7 @@ export class ProductService {
   async createProduct(productDto: ProductDto) {
     const { name, subName, category } = productDto;
     // Checking if product name already exists
-    if (await this.productRepository.isNameAlreadyExists(name)) {
+    if (await this.productRepository.getByName(name)) {
       throw new BadRequestException(
         `Product with name ${name} already exists. Please give a different name`,
       );
@@ -74,7 +74,7 @@ export class ProductService {
 
     // Checking if product name already exists only if incoming name is new
     if (product.name !== name) {
-      if (await this.productRepository.isNameAlreadyExists(name)) {
+      if (await this.productRepository.getByName(name)) {
         throw new BadRequestException(
           `Product with name ${name} already exists. Please give a different name`,
         );

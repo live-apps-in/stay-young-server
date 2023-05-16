@@ -11,7 +11,7 @@ export class CategoryService {
   constructor(private readonly categoryRepository: CategoryRepository) {}
 
   async createCategory(categoryDto: CategoryDto) {
-    if (await this.categoryRepository.isNameAlreadyExists(categoryDto.name)) {
+    if (await this.categoryRepository.getByName(categoryDto.name)) {
       throw new BadRequestException(
         `Category ${categoryDto.name} already exists`,
       );
@@ -34,7 +34,7 @@ export class CategoryService {
     }
     // Check whether category exists only if the incoming category name is new
     if (category.name !== categoryDto.name) {
-      if (await this.categoryRepository.isNameAlreadyExists(categoryDto.name)) {
+      if (await this.categoryRepository.getByName(categoryDto.name)) {
         throw new BadRequestException(
           `Category ${categoryDto.name} already exists`,
         );
