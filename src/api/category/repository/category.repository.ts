@@ -28,7 +28,9 @@ export class CategoryRepository {
   }
 
   async getByName(name: string) {
-    return this.categoryModel.findOne({ name });
+    return this.categoryModel.findOne({
+      name: { $regex: new RegExp(name, 'i') },
+    });
   }
 
   async update(id: string, categoryDto: CategoryDto) {

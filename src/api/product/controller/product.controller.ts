@@ -29,6 +29,11 @@ export class ProductController {
     return this.productService.getAllProducts();
   }
 
+  @Get(':id')
+  getById(@Param('id') id: string) {
+    return this.productService.getById(id);
+  }
+
   @Patch(':id')
   @UseGuards(AuthGuard)
   update(@Param('id') id: string, @Body() productDto: ProductDto) {
