@@ -9,12 +9,14 @@ import { BannerDto } from '../_dto/banner.dto';
 @Injectable()
 export class BannerService {
   constructor(private readonly bannerRepository: BannerRepository) {}
+
   async create(bannerDto: BannerDto) {
     const { displayIndex } = bannerDto;
     const count = await this.bannerRepository.countAll();
     if (count >= 5) {
       throw new BadRequestException('Maximum Banners Reached');
     }
+
     const bannerWithSameDisdisplayIndexExists =
       await this.bannerRepository.findOne({
         displayIndex,
@@ -24,14 +26,17 @@ export class BannerService {
         `Banner with position ${displayIndex} already exists. Please select another position. `,
       );
     }
+
     return this.bannerRepository.create(bannerDto);
   }
 
   async getAll() {
     const banners = await this.bannerRepository.getAll({});
+
     const sortedBanners = banners.sort(
       (a: BannerDto, b: BannerDto) => a.displayIndex - b.displayIndex,
     );
+
     return sortedBanners;
   }
 
@@ -45,6 +50,7 @@ export class BannerService {
     if (!banner) {
       throw new NotFoundException('Banner not found');
     }
+
     if (banner.displayIndex !== displayIndex) {
       const bannerWithSameDisdisplayIndex = await this.bannerRepository.findOne(
         {
@@ -75,6 +81,7 @@ export class BannerService {
         'At least two banners must be retained and cannot be deleted',
       );
     }
+
     const banner = await this.bannerRepository.findById(bannerId);
     if (!banner) {
       throw new NotFoundException('Banner not found');
