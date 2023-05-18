@@ -26,7 +26,7 @@ export class BannerRepository {
     return this.bannerModel.findOne(query);
   }
 
-  async documentsCount() {
+  async countAll() {
     return this.bannerModel.count();
   }
 

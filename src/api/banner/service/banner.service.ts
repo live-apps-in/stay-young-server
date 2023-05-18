@@ -11,7 +11,7 @@ export class BannerService {
   constructor(private readonly bannerRepository: BannerRepository) {}
   async create(bannerDto: BannerDto) {
     const { displayIndex } = bannerDto;
-    const count = await this.bannerRepository.documentsCount();
+    const count = await this.bannerRepository.countAll();
     if (count >= 5) {
       throw new BadRequestException('Maximum Banners Reached');
     }
@@ -69,7 +69,7 @@ export class BannerService {
   }
 
   async delete(bannerId: string) {
-    const count = await this.bannerRepository.documentsCount();
+    const count = await this.bannerRepository.countAll();
     if (count === 2) {
       throw new BadRequestException(
         'At least two banners must be retained and cannot be deleted',
