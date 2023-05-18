@@ -7,6 +7,7 @@ import { AuthModule } from './api/auth/auth.module';
 import { UserModule } from './api/users/users.module';
 import { CategoryModule } from './api/category/category.module';
 import { ProductModule } from './api/product/product.module';
+import { BannerModule } from './api/banner/banner.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProductModule } from './api/product/product.module';
     AuthModule,
     CategoryModule,
     ProductModule,
+    BannerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
