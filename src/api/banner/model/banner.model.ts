@@ -21,7 +21,7 @@ export class Banner {
   image: string;
 
   @Prop()
-  order: number;
+  displayIndex: number;
 }
 
 export const bannerSchema = SchemaFactory.createForClass(Banner);

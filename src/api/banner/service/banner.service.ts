@@ -10,17 +10,18 @@ import { BannerDto } from '../_dto/banner.dto';
 export class BannerService {
   constructor(private readonly bannerRepository: BannerRepository) {}
   async create(bannerDto: BannerDto) {
-    const { order } = bannerDto;
+    const { displayIndex } = bannerDto;
     const count = await this.bannerRepository.documentsCount();
     if (count >= 5) {
       throw new BadRequestException('Maximum Banners Reached');
     }
-    const bannerWithSameOrderExists = await this.bannerRepository.findOne({
-      order,
-    });
-    if (bannerWithSameOrderExists) {
+    const bannerWithSameDisdisplayIndexExists =
+      await this.bannerRepository.findOne({
+        displayIndex,
+      });
+    if (bannerWithSameDisdisplayIndexExists) {
       throw new BadRequestException(
-        `Banner with position ${order} already exists. Please select another position. `,
+        `Banner with position ${displayIndex} already exists. Please select another position. `,
       );
     }
     return this.bannerRepository.create(bannerDto);
@@ -29,7 +30,7 @@ export class BannerService {
   async getAll() {
     const banners = await this.bannerRepository.getAll({});
     const sortedBanners = banners.sort(
-      (a: BannerDto, b: BannerDto) => a.order - b.order,
+      (a: BannerDto, b: BannerDto) => a.displayIndex - b.displayIndex,
     );
     return sortedBanners;
   }
@@ -39,25 +40,32 @@ export class BannerService {
   }
 
   async update(bannerId: string, bannerDto: BannerDto) {
-    const { order } = bannerDto;
+    const { displayIndex } = bannerDto;
     const banner = await this.bannerRepository.findById(bannerId);
     if (!banner) {
       throw new NotFoundException('Banner not found');
     }
-    if (banner.order !== order) {
-      const bannerWithSameOrder = await this.bannerRepository.findOne({
-        order,
-      });
-      if (bannerWithSameOrder) {
-        // Swap the orders
-        bannerWithSameOrder.order = banner.order;
-        await this.bannerRepository.update(bannerWithSameOrder._id.toString(), {
-          ...bannerWithSameOrder,
-        });
+    if (banner.displayIndex !== displayIndex) {
+      const bannerWithSameDisdisplayIndex = await this.bannerRepository.findOne(
+        {
+          displayIndex,
+        },
+      );
+      if (bannerWithSameDisdisplayIndex) {
+        // Swap the displayIndexs
+        bannerWithSameDisdisplayIndex.displayIndex = banner.displayIndex;
+        await this.bannerRepository.update(
+          bannerWithSameDisdisplayIndex._id.toString(),
+          {
+            ...bannerWithSameDisdisplayIndex,
+          },
+        );
       }
     }
-    banner.order = order;
-    return this.bannerRepository.update(bannerId, { ...banner });
+
+    return this.bannerRepository.update(bannerId, {
+      ...bannerDto,
+    });
   }
 
   async delete(bannerId: string) {
@@ -73,13 +81,13 @@ export class BannerService {
     }
     await this.bannerRepository.delete(bannerId);
 
-    // Update the order of remaining banners
+    // Update the displayIndex of remaining banners
     const bannersToUpdate = await this.bannerRepository.getAll({
-      order: { $gt: banner.order },
+      displayIndex: { $gt: banner.displayIndex },
     });
 
     for (const bannerToUpdate of bannersToUpdate) {
-      bannerToUpdate.order -= 1;
+      bannerToUpdate.displayIndex -= 1;
       await this.bannerRepository.update(
         bannerToUpdate._id.toString(),
         bannerToUpdate,

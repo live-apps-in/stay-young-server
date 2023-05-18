@@ -34,5 +34,5 @@ export class BannerDto {
   @IsNotEmpty()
   @Min(1)
   @Max(5)
-  order: number;
+  displayIndex: number;
 }
