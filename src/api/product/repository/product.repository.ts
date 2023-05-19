@@ -27,7 +27,7 @@ export class ProductRepository {
     const regex = new RegExp(searchQuery, 'i');
     return this.productModel
       .find({
-        $or: [{ name: { $regex: regex } }, { subName: { $regex: regex } }],
+        name: { $regex: regex },
       })
       .populate('category');
   }

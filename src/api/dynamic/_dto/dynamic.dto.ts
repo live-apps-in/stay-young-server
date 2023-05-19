@@ -5,3 +5,11 @@ export class BestSellerDto {
   @IsString()
   readonly productId: string;
 }
+
+export interface UpdateResult {
+  acknowledged: boolean;
+  modifiedCount: number;
+  upsertedId: null | any;
+  upsertedCount: number;
+  matchedCount: number;
+}

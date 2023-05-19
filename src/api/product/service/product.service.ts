@@ -145,8 +145,8 @@ export class ProductService {
     return { message: 'Product deleted Successfully' };
   }
 
-  async search(searchQuery: string) {
-    // Find Products with name or SubName
-    return this.productRepository.search(searchQuery);
+  async search(searchQuery: any) {
+    const { name } = searchQuery;
+    return this.productRepository.search(name);
   }
 }

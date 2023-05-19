@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Dynamic } from '../model/dynamic.model';
 import { Model } from 'mongoose';
+import { UpdateResult } from '../_dto/dynamic.dto';
 
 @Injectable()
 export class DynamicRepository {
@@ -10,9 +11,7 @@ export class DynamicRepository {
   ) {}
 
   async getBestSellers() {
-    return this.dynamicModel
-      .findOne({ _id: '646773b40819d05003325706' })
-      .populate('bestSellers.products');
+    return this.dynamicModel.findOne().populate('bestSellers.products');
   }
 
   async findOneFromBestSellers(productId: string) {
@@ -21,13 +20,7 @@ export class DynamicRepository {
     });
   }
 
-  async update(payload: any) {
-    return this.dynamicModel.findOneAndUpdate(
-      {
-        _id: '646773b40819d05003325706',
-      },
-      { ...payload },
-      { new: true },
-    );
+  async update(payload: any): Promise<UpdateResult> {
+    return this.dynamicModel.updateOne({}, payload);
   }
 }

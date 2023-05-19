@@ -9,6 +9,7 @@ export class DynamicService {
     if (await this.dynamicRepository.findOneFromBestSellers(productId)) {
       throw new BadRequestException('Product already added to BestSeller');
     }
+
     return this.dynamicRepository.update({
       $push: { 'bestSellers.products': productId },
     });

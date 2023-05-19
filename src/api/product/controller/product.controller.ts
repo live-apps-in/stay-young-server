@@ -31,8 +31,8 @@ export class ProductController {
   }
 
   @Get('search')
-  async search(@Query('q') searchQuery: string) {
-    return this.productService.search(searchQuery);
+  async search(@Query() query: any) {
+    return this.productService.search(query);
   }
 
   @Get(':id')
