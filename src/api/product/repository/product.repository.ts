@@ -23,8 +23,13 @@ export class ProductRepository {
     return this.productModel.findOne(query).populate('category');
   }
 
-  async find(query: any) {
-    return this.productModel.find(query);
+  async search(searchQuery: string) {
+    const regex = new RegExp(searchQuery, 'i');
+    return this.productModel
+      .find({
+        $or: [{ name: { $regex: regex } }, { subName: { $regex: regex } }],
+      })
+      .populate('category');
   }
 
   async getByName(name: string) {

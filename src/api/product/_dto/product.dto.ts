@@ -19,7 +19,7 @@ export class ProductDto {
   @IsString()
   readonly subName: string;
 
-  @ApiProperty({ example: ['toner'] })
+  @ApiProperty({ example: ['objectId'] })
   @IsArray()
   @IsString({ each: true })
   @ArrayMinSize(1)

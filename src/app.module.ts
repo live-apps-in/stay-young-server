@@ -8,6 +8,7 @@ import { UserModule } from './api/users/users.module';
 import { CategoryModule } from './api/category/category.module';
 import { ProductModule } from './api/product/product.module';
 import { BannerModule } from './api/banner/banner.module';
+import { DynamicModule } from './api/dynamic/dynamic.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { BannerModule } from './api/banner/banner.module';
     CategoryModule,
     ProductModule,
     BannerModule,
+    DynamicModule,
   ],
   controllers: [AppController],
   providers: [AppService],
