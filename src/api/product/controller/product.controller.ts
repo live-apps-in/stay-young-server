@@ -7,6 +7,7 @@ import {
   Patch,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ProductDto } from '../_dto/product.dto';
 import { ProductService } from '../service/product.service';
@@ -27,6 +28,11 @@ export class ProductController {
   @Get()
   getAllProducts() {
     return this.productService.getAllProducts();
+  }
+
+  @Get('search')
+  async search(@Query() query: any) {
+    return this.productService.search(query);
   }
 
   @Get(':id')

@@ -144,4 +144,9 @@ export class ProductService {
     await this.productRepository.delete(productId);
     return { message: 'Product deleted Successfully' };
   }
+
+  async search(searchQuery: any) {
+    const { name } = searchQuery;
+    return this.productRepository.search(name);
+  }
 }
