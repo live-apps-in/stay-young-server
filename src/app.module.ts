@@ -9,6 +9,7 @@ import { CategoryModule } from './api/category/category.module';
 import { ProductModule } from './api/product/product.module';
 import { BannerModule } from './api/banner/banner.module';
 import { DynamicModule } from './api/dynamic/dynamic.module';
+import { CouponModule } from './api/coupon/coupon.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { DynamicModule } from './api/dynamic/dynamic.module';
     ProductModule,
     BannerModule,
     DynamicModule,
+    CouponModule,
   ],
   controllers: [AppController],
   providers: [AppService],
