@@ -8,8 +8,8 @@ import {
 } from 'class-validator';
 
 enum DiscountType {
-  Percentage = 'percentage',
-  Price = 'price',
+  PERCENTAGE = 'percentage',
+  PRICE = 'price',
 }
 
 export class CouponDto {
