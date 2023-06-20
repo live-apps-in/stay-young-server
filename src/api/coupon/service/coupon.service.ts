@@ -42,7 +42,7 @@ export class CouponService {
       throw new NotFoundException('Coupon Not Found');
     }
 
-    if (couponDto.code !== coupon.code) {
+    if (couponDto.code.toUpperCase() !== coupon.code) {
       if (await this.couponRepository.getByCode(couponDto.code)) {
         throw new BadRequestException('Coupon Code already Exists');
       }
@@ -58,7 +58,10 @@ export class CouponService {
       }
     }
 
-    return this.couponRepository.update(couponId, couponDto);
+    return this.couponRepository.update(couponId, {
+      ...couponDto,
+      code: couponDto.code.toUpperCase(),
+    });
   }
 
   async delete(couponId: string) {

@@ -11,7 +11,10 @@ export class CouponRepository {
   ) {}
 
   async create(couponDto: CouponDto) {
-    return this.couponModel.create(couponDto);
+    return this.couponModel.create({
+      ...couponDto,
+      code: couponDto.code.toUpperCase(),
+    });
   }
 
   async getAll() {
@@ -23,9 +26,7 @@ export class CouponRepository {
   }
 
   async getByCode(code: string) {
-    return this.couponModel.findOne({
-      code: { $regex: new RegExp(code, 'i') },
-    });
+    return this.couponModel.findOne({ code: code.toUpperCase() });
   }
 
   async update(id: string, payload: CouponDto) {
