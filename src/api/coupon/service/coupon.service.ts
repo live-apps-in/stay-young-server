@@ -28,6 +28,27 @@ export class CouponService {
     return this.couponRepository.create(couponDto);
   }
 
+  async checkValidity(code: string) {
+    const coupon = await this.couponRepository.getByCode(code);
+
+    if (!coupon) {
+      throw new BadRequestException(
+        'The Coupon code you entered is invalid. Please try again.',
+      );
+    }
+
+    const currentDate = new Date();
+    const expiryDate = new Date(coupon.expiry);
+    currentDate.setHours(0, 0, 0, 0);
+    if (expiryDate < currentDate) {
+      throw new BadRequestException(
+        'The Coupon code you entered is invalid. Please try again.',
+      );
+    }
+
+    return coupon;
+  }
+
   async getAll() {
     return this.couponRepository.getAll();
   }

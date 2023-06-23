@@ -18,8 +18,8 @@ import { AuthGuard } from 'src/api/auth/guards/auth.guard';
 export class CouponController {
   constructor(private readonly couponService: CouponService) {}
 
-  @Post()
   @UseGuards(AuthGuard)
+  @Post()
   async create(@Body() couponDto: CouponDto) {
     return this.couponService.create(couponDto);
   }
@@ -29,21 +29,26 @@ export class CouponController {
     return this.couponService.getAll();
   }
 
-  @Get(':id')
   @UseGuards(AuthGuard)
+  @Get(':id')
   getSingleCoupon(@Param('id') id: string) {
     return this.couponService.getById(id);
   }
 
-  @Patch(':id')
   @UseGuards(AuthGuard)
+  @Patch(':id')
   update(@Param('id') id: string, @Body() couponDto: CouponDto) {
     return this.couponService.update(id, couponDto);
   }
 
-  @Delete(':id')
   @UseGuards(AuthGuard)
+  @Delete(':id')
   delete(@Param('id') id: string) {
     return this.couponService.delete(id);
+  }
+
+  @Post('check-validity')
+  checkValidity(@Body('code') code: string) {
+    return this.couponService.checkValidity(code);
   }
 }
