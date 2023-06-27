@@ -18,6 +18,8 @@ export class Product {
   })
   category: Category[];
   @Prop()
+  detailTags: string[];
+  @Prop()
   images: string[];
   @Prop()
   price: number;
