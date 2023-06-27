@@ -25,6 +25,14 @@ export class ProductDto {
   @ArrayMinSize(1)
   readonly category: Category[];
 
+  @ApiProperty({
+    example: ['cruelty free', 'Vegan friendly', 'plus three', 'ph-range'],
+  })
+  @IsArray()
+  @IsString({ each: true })
+  @ArrayMinSize(1)
+  readonly detailTags: string[];
+
   @ApiProperty({ example: ['image1Url', 'Image2Url', 'Image3Url'] })
   @IsArray()
   @IsString({ each: true })
