@@ -26,12 +26,27 @@ export class ProductDto {
   readonly category: Category[];
 
   @ApiProperty({
-    example: ['cruelty free', 'Vegan friendly', 'plus three', 'ph-range'],
+    example: [
+      {
+        name: 'cruelty-free',
+        content: 'Cruelty Free',
+      },
+      {
+        name: 'vegan-friendly',
+        content: 'Vegan Friendly',
+      },
+      {
+        name: 'ph-range',
+        content: '2-3',
+      },
+      {
+        name: 'plus-three',
+        content: 'plus three content',
+      },
+    ],
   })
   @IsArray()
-  @IsString({ each: true })
-  @ArrayMinSize(1)
-  readonly detailTags: string[];
+  readonly detailTags: Array<{ name: string; content: string }>;
 
   @ApiProperty({ example: ['image1Url', 'Image2Url', 'Image3Url'] })
   @IsArray()

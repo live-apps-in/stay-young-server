@@ -18,7 +18,7 @@ export class Product {
   })
   category: Category[];
   @Prop()
-  detailTags: string[];
+  detailTags: Array<{ name: string; content: string }>;
   @Prop()
   images: string[];
   @Prop()
