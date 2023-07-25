@@ -6,4 +6,3 @@ services:
     container_name: stay-young-server
     ports:
       - "5008:5000"
-    restart: always
