@@ -6,6 +6,7 @@ import {
   IsNumber,
   IsString,
 } from 'class-validator';
+import { Brand } from 'src/api/brand/model/brand.model';
 import { Category } from 'src/api/category/model/category.model';
 
 export class ProductDto {
@@ -25,6 +26,11 @@ export class ProductDto {
   @ArrayMinSize(1)
   readonly category: Category[];
 
+  @ApiProperty({ example: 'Brand Id' })
+  @IsString()
+  @IsNotEmpty()
+  readonly brand: Brand;
+
   @ApiProperty({
     example: [
       {
@@ -32,16 +38,12 @@ export class ProductDto {
         content: 'Cruelty Free',
       },
       {
-        name: 'vegan-friendly',
-        content: 'Vegan Friendly',
-      },
-      {
         name: 'ph-range',
         content: '2-3',
       },
       {
-        name: 'plus-three',
-        content: 'plus three content',
+        name: 'additional-info',
+        content: 'Additional Information',
       },
     ],
   })

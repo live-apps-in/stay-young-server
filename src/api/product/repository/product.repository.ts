@@ -20,7 +20,9 @@ export class ProductRepository {
   }
 
   async findOne(query: any) {
-    return this.productModel.findOne(query).populate('category');
+    return (
+      await this.productModel.findOne(query).populate('category')
+    ).populate('brand');
   }
 
   async search(searchQuery: string) {
@@ -39,20 +41,11 @@ export class ProductRepository {
   }
 
   async findById(id: string) {
-    return this.productModel.findById(id);
+    return (await this.productModel.findById(id)).populate('brand');
   }
 
   async getAll() {
-    return this.productModel.aggregate([
-      {
-        $lookup: {
-          from: 'categories',
-          localField: 'category',
-          foreignField: '_id',
-          as: 'category',
-        },
-      },
-    ]);
+    return this.productModel.find().populate('category').populate('brand');
   }
 
   async getByCategory(categoryName: string) {
@@ -68,6 +61,24 @@ export class ProductRepository {
       {
         $match: {
           'category.name': { $regex: new RegExp(categoryName, 'i') },
+        },
+      },
+    ]);
+  }
+
+  async getByBrand(brandName: string) {
+    return this.productModel.aggregate([
+      {
+        $lookup: {
+          from: 'brands',
+          localField: 'brand',
+          foreignField: '_id',
+          as: 'brand',
+        },
+      },
+      {
+        $match: {
+          'brand.name': { $regex: new RegExp(brandName, 'i') },
         },
       },
     ]);

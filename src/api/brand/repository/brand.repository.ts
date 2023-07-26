@@ -10,8 +10,8 @@ export class BrandRepository {
     @InjectModel(Brand.name) private readonly brandModel: Model<Brand>,
   ) {}
 
-  async create(brandModel: BrandDto) {
-    return this.brandModel.create(brandModel);
+  async create(brandDto: BrandDto) {
+    return this.brandModel.create(brandDto);
   }
 
   async getByName(name: string) {

@@ -56,6 +56,11 @@ export class ProductController {
     return this.productService.getProductsByCategoryName(name);
   }
 
+  @Get('brand/:name')
+  getByBrand(@Param('name') name: string) {
+    return this.productService.getProductsByBrandName(name);
+  }
+
   @Delete(':id')
   @UseGuards(AuthGuard)
   delete(@Param('id') id: string) {
