@@ -53,7 +53,9 @@ export class ProductService {
       slug,
     });
     // Populating category
-    const populatedProduct = await createdProduct.populate('category');
+    const populatedProduct = (
+      await createdProduct.populate('category')
+    ).populate('brand');
     return populatedProduct;
   }
 
@@ -65,6 +67,10 @@ export class ProductService {
 
   async getProductsByCategoryName(categoryName: string) {
     return this.productRepository.getByCategory(categoryName);
+  }
+
+  async getProductsByBrandName(brandName: string) {
+    return this.productRepository.getByBrand(brandName);
   }
 
   async getById(id: string) {

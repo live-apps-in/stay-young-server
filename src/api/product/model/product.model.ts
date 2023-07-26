@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
+import { Brand } from 'src/api/brand/model/brand.model';
 import { Category } from 'src/api/category/model/category.model';
 
 export type ProductDocument = HydratedDocument<Product>;
@@ -17,6 +18,8 @@ export class Product {
     ref: 'Category',
   })
   category: Category[];
+  @Prop({ type: Types.ObjectId, ref: 'Brand' })
+  brand: Brand;
   @Prop()
   detailTags: Array<{ name: string; content: string }>;
   @Prop()

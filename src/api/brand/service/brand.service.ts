@@ -17,8 +17,8 @@ export class BrandService {
     }
 
     return this.brandrepository.create({
-      name: name.toLowerCase(),
       ...brandDto,
+      name: name.toLowerCase(),
     });
   }
 
@@ -45,8 +45,8 @@ export class BrandService {
     }
 
     return this.brandrepository.update(brandId, {
-      name: name.toLowerCase(),
       ...brandDto,
+      name: name.toLowerCase(),
     });
   }
 
