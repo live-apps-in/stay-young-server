@@ -21,7 +21,7 @@ export class Product {
   @Prop({ type: Types.ObjectId, ref: 'Brand' })
   brand: Brand;
   @Prop()
-  detailTags: Array<{ name: string; content: string }>;
+  detailTags: Array<{ isActive: boolean; name: string; content: string }>;
   @Prop()
   images: string[];
   @Prop()
