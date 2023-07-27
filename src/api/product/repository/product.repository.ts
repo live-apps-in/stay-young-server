@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Product } from '../model/product.model';
 import { Model } from 'mongoose';
 import { ProductDto } from '../_dto/product.dto';
+import { Brand } from 'src/api/brand/model/brand.model';
 
 interface IProduct extends ProductDto {
   slug: string;
@@ -13,6 +14,8 @@ export class ProductRepository {
   constructor(
     @InjectModel(Product.name)
     private readonly productModel: Model<Product>,
+    @InjectModel(Brand.name)
+    private readonly brandModel: Model<Brand>,
   ) {}
 
   async create(payload: IProduct) {
@@ -20,9 +23,10 @@ export class ProductRepository {
   }
 
   async findOne(query: any) {
-    return (
-      await this.productModel.findOne(query).populate('category')
-    ).populate('brand');
+    return this.productModel
+      .findOne(query)
+      .populate('category')
+      .populate('brand');
   }
 
   async search(searchQuery: string) {
@@ -67,21 +71,10 @@ export class ProductRepository {
   }
 
   async getByBrand(brandName: string) {
-    return this.productModel.aggregate([
-      {
-        $lookup: {
-          from: 'brands',
-          localField: 'brand',
-          foreignField: '_id',
-          as: 'brand',
-        },
-      },
-      {
-        $match: {
-          'brand.name': { $regex: new RegExp(brandName, 'i') },
-        },
-      },
-    ]);
+    const brand: any = await this.brandModel.findOne({
+      name: brandName,
+    });
+    return this.productModel.find({ brand: brand._id.toString() });
   }
 
   async findOneAndUpdate(productId: string, payload: any) {

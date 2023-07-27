@@ -34,21 +34,24 @@ export class ProductDto {
   @ApiProperty({
     example: [
       {
+        isActive: true,
         name: 'cruelty-free',
         content: 'Cruelty Free',
       },
+      { isActive: false, name: 'ph-range', content: '2-3' },
       {
-        name: 'ph-range',
-        content: '2-3',
-      },
-      {
+        isActive: true,
         name: 'additional-info',
         content: 'Additional Information',
       },
     ],
   })
   @IsArray()
-  readonly detailTags: Array<{ name: string; content: string }>;
+  readonly detailTags: Array<{
+    isActive: boolean;
+    name: string;
+    content: string;
+  }>;
 
   @ApiProperty({ example: ['image1Url', 'Image2Url', 'Image3Url'] })
   @IsArray()
