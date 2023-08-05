@@ -1,13 +1,38 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   ArrayMinSize,
   IsArray,
   IsNotEmpty,
   IsNumber,
   IsString,
+  ValidateNested,
 } from 'class-validator';
 import { Brand } from 'src/api/brand/model/brand.model';
 import { Category } from 'src/api/category/model/category.model';
+
+export class DescriptionDto {
+  @ApiProperty({
+    example:
+      'Infused with a nourishing blend of organic ingredients, Klairs Rich Moist Soothing Serum is designed to deeply hydrate and calm the skin.',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly content: string;
+
+  @ApiProperty({ example: 'Aqua (Water), Butylene Glycol, Dimethyl Sulfone' })
+  @IsNotEmpty()
+  @IsString()
+  readonly ingredients: string;
+
+  @ApiProperty({
+    example:
+      'After cleansing your face normally, apply klairs rich moist soothing serum to the damp skin Wait for a few minutes for the product to get absorbed fully.',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly usage: string;
+}
 
 export class ProductDto {
   @ApiProperty({ example: 'Hyaluronic Acid Toner' })
@@ -69,12 +94,13 @@ export class ProductDto {
   readonly discountedPrice: number;
 
   @ApiProperty({ example: 20 })
+  @IsNotEmpty()
   @IsNumber()
   readonly stockAvailable: number;
 
-  @ApiProperty({
-    example: 'This toner is designed to brighten and even out skin tone.',
-  })
-  @IsString()
-  readonly description: string;
+  @ApiProperty({ type: DescriptionDto })
+  @IsNotEmpty()
+  @Type(() => DescriptionDto)
+  @ValidateNested()
+  readonly description: DescriptionDto;
 }

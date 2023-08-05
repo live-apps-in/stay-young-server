@@ -5,6 +5,12 @@ import { Category } from 'src/api/category/model/category.model';
 
 export type ProductDocument = HydratedDocument<Product>;
 
+interface Description {
+  content: string;
+  ingredients: string;
+  usage: string;
+}
+
 @Schema()
 export class Product {
   @Prop()
@@ -30,8 +36,8 @@ export class Product {
   discountedPrice: number;
   @Prop({ default: 0 })
   stockAvailable: number;
-  @Prop()
-  description: string;
+  @Prop({ type: Object, required: true })
+  description: Description;
 }
 
 export const productSchema = SchemaFactory.createForClass(Product);
