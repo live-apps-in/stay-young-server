@@ -9,6 +9,8 @@ interface Description {
   content: string;
   ingredients: string;
   usage: string;
+  information: string;
+  benefits: string;
 }
 
 @Schema()
