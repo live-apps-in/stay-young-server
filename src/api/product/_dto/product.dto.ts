@@ -32,6 +32,14 @@ export class DescriptionDto {
   @IsNotEmpty()
   @IsString()
   readonly usage: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly information: string;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly benefits: string;
 }
 
 export class ProductDto {
