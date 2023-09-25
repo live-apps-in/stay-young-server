@@ -27,8 +27,8 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            --build-arg MONGO_URI=${{ secrets.KITTY_CHAN_TOKEN }} \
-            --build-arg JWT_SECRET=${{ vars.KITTY_CHAN_ID }} \
+            --build-arg MONGO_URI=${{ secrets.MONGO_URI }} \
+            --build-arg JWT_SECRET=${{ secrets.JWT_SECRET }} \
             -t jagalive/stay-young-server:${{ github.sha }} .
           docker tag jagalive/stay-young-server:${{ github.sha }} jagalive/stay-young-server:latest
         working-directory: ./
