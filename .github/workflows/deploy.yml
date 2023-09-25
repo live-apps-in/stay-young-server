@@ -1,0 +1,39 @@
+name: Stay Young Server Build Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: Development
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            --build-arg MONGO_URI=${{ secrets.KITTY_CHAN_TOKEN }} \
+            --build-arg JWT_SECRET=${{ vars.KITTY_CHAN_ID }} \
+            -t jagalive/stay-young-server:${{ github.sha }} .
+          docker tag jagalive/stay-young-server:${{ github.sha }} jagalive/stay-young-server:latest
+        working-directory: ./
+
+      - name: Push Docker image
+        run: |
+          docker push jagalive/stay-young-server:${{ github.sha }}
+          docker push jagalive/stay-young-server:latest
